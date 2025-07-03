@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SimpleApi.Repositories;
 using SimpleApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SimpleApi.Controllers
 {
@@ -83,6 +84,27 @@ namespace SimpleApi.Controllers
 
         [HttpPut("{id}/reject")]
         public async Task<IActionResult> Reject(int id)
+        {
+            await _repository.RejectStudent(id);
+            return Ok();
+        }
+
+        // ================= ADMIN ENDPOINTS =================
+        [HttpGet("/api/admin/students")]
+        // [Authorize(Roles = "Admin")] // Uncomment jika sudah ada JWT auth
+        public async Task<IActionResult> GetAllAdmin() => Ok(await _repository.GetAllAsync());
+
+        [HttpPut("/api/admin/students/{id}/approve")]
+        // [Authorize(Roles = "Admin")] // Uncomment jika sudah ada JWT auth
+        public async Task<IActionResult> ApproveAdmin(int id)
+        {
+            await _repository.ApproveStudent(id);
+            return Ok();
+        }
+
+        [HttpPut("/api/admin/students/{id}/reject")]
+        // [Authorize(Roles = "Admin")] // Uncomment jika sudah ada JWT auth
+        public async Task<IActionResult> RejectAdmin(int id)
         {
             await _repository.RejectStudent(id);
             return Ok();
