@@ -173,3 +173,4 @@ D:\Code Stuff\manajemen mahasiswa vue\SimpleApi\obj\Debug\net8.0\SimpleApi.pdb
 D:\Code Stuff\manajemen mahasiswa vue\SimpleApi\obj\Debug\net8.0\SimpleApi.genruntimeconfig.cache
 D:\Code Stuff\manajemen mahasiswa vue\SimpleApi\obj\Debug\net8.0\ref\SimpleApi.dll
 D:\Code Stuff\manajemen mahasiswa vue\SimpleApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Code Stuff\manajemen mahasiswa vue\SimpleApi\obj\Debug\net8.0\SimpleApi.sourcelink.json

@@ -54,6 +54,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Initialize database dengan user admin
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    DbInitializer.Initialize(context);
+}
+
 // Swagger hanya untuk development
 if (app.Environment.IsDevelopment())
 {

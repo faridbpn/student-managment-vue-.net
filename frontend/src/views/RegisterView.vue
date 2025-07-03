@@ -1,139 +1,193 @@
 <template>
   <div class="register-container">
-    <div class="register-card">
-      <h2>Pendaftaran Mahasiswa Baru</h2>
-      
-      <form @submit.prevent="handleSubmit" class="register-form">
-        <!-- Data Pribadi -->
-        <div class="form-section">
-          <h3>Data Pribadi</h3>
-          
-          <div class="form-group">
-            <label for="fullName">Nama Lengkap *</label>
-            <input 
-              type="text" 
-              id="fullName" 
-              v-model="form.fullName" 
-              required
-              placeholder="Masukkan nama lengkap"
-            />
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-content">
+          <router-link to="/" class="navbar-brand">
+            🎓 Sistem Pendaftaran Mahasiswa
+          </router-link>
+          <router-link to="/login" class="nav-link">Sudah punya akun? Login</router-link>
+        </div>
+      </div>
+    </nav>
+
+    <div class="register-content">
+      <div class="container">
+        <div class="register-card">
+          <div class="card-header">
+            <h1 class="text-center">📝 Pendaftaran Mahasiswa Baru</h1>
+            <p class="text-center text-muted">Lengkapi data diri Anda dengan benar</p>
           </div>
 
-          <div class="form-group">
-            <label for="nim">NIM *</label>
-            <input 
-              type="text" 
-              id="nim" 
-              v-model="form.nim" 
-              required
-              placeholder="Masukkan NIM"
-            />
+          <div class="card-body">
+            <form @submit.prevent="handleSubmit" class="register-form">
+              <!-- Data Pribadi -->
+              <div class="form-section">
+                <h3 class="section-title">👤 Data Pribadi</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="fullName" class="form-label">Nama Lengkap *</label>
+                    <input 
+                      type="text" 
+                      id="fullName" 
+                      v-model="form.fullName" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan nama lengkap"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="nim" class="form-label">NIM *</label>
+                    <input 
+                      type="text" 
+                      id="nim" 
+                      v-model="form.nim" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan NIM"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="email" class="form-label">Email *</label>
+                    <input 
+                      type="email" 
+                      id="email" 
+                      v-model="form.email" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan email"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="username" class="form-label">Username *</label>
+                    <input 
+                      type="text" 
+                      id="username" 
+                      v-model="form.username" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan username"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="password" class="form-label">Password *</label>
+                  <input 
+                    type="password" 
+                    id="password" 
+                    v-model="form.password" 
+                    class="form-input"
+                    required
+                    placeholder="Masukkan password"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="photo" class="form-label">📸 Foto 3x4 *</label>
+                  <div class="file-upload-container">
+                    <input 
+                      type="file" 
+                      id="photo" 
+                      @change="handlePhotoChange" 
+                      class="form-file"
+                      accept="image/*"
+                      required
+                    />
+                    <div class="file-info">
+                      <p class="text-sm">Format: JPG, PNG. Maksimal 2MB</p>
+                      <p v-if="form.photo" class="text-sm text-success">
+                        ✅ File dipilih: {{ form.photo.name }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Data Orang Tua -->
+              <div class="form-section">
+                <h3 class="section-title">👨‍👩‍👧‍👦 Data Orang Tua</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="fatherName" class="form-label">Nama Ayah *</label>
+                    <input 
+                      type="text" 
+                      id="fatherName" 
+                      v-model="form.parent.fatherName" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan nama ayah"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="motherName" class="form-label">Nama Ibu *</label>
+                    <input 
+                      type="text" 
+                      id="motherName" 
+                      v-model="form.parent.motherName" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan nama ibu"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="address" class="form-label">Alamat *</label>
+                  <textarea 
+                    id="address" 
+                    v-model="form.parent.address" 
+                    class="form-input form-textarea"
+                    required
+                    placeholder="Masukkan alamat lengkap"
+                    rows="3"
+                  ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="phone" class="form-label">📞 No. HP *</label>
+                  <input 
+                    type="tel" 
+                    id="phone" 
+                    v-model="form.parent.phone" 
+                    class="form-input"
+                    required
+                    placeholder="Masukkan nomor HP"
+                  />
+                </div>
+              </div>
+
+              <!-- Error Message -->
+              <div v-if="error" class="error-message">
+                {{ error }}
+              </div>
+
+              <!-- Submit Button -->
+              <div class="form-actions">
+                <button type="submit" :disabled="loading" class="btn btn-primary btn-large">
+                  <span v-if="loading" class="spinner-small"></span>
+                  {{ loading ? 'Mendaftar...' : '📝 Daftar Sekarang' }}
+                </button>
+              </div>
+            </form>
           </div>
 
-          <div class="form-group">
-            <label for="email">Email *</label>
-            <input 
-              type="email" 
-              id="email" 
-              v-model="form.email" 
-              required
-              placeholder="Masukkan email"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="username">Username *</label>
-            <input 
-              type="text" 
-              id="username" 
-              v-model="form.username" 
-              required
-              placeholder="Masukkan username"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="password">Password *</label>
-            <input 
-              type="password" 
-              id="password" 
-              v-model="form.password" 
-              required
-              placeholder="Masukkan password"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="photo">Foto 3x4 *</label>
-            <input 
-              type="file" 
-              id="photo" 
-              @change="handlePhotoChange" 
-              accept="image/*"
-              required
-            />
-            <small>Format: JPG, PNG. Maksimal 2MB</small>
+          <div class="card-footer">
+            <p class="text-center">
+              Sudah punya akun? 
+              <router-link to="/login" class="text-primary">Login di sini</router-link>
+            </p>
           </div>
         </div>
-
-        <!-- Data Orang Tua -->
-        <div class="form-section">
-          <h3>Data Orang Tua</h3>
-          
-          <div class="form-group">
-            <label for="fatherName">Nama Ayah *</label>
-            <input 
-              type="text" 
-              id="fatherName" 
-              v-model="form.parent.fatherName" 
-              required
-              placeholder="Masukkan nama ayah"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="motherName">Nama Ibu *</label>
-            <input 
-              type="text" 
-              id="motherName" 
-              v-model="form.parent.motherName" 
-              required
-              placeholder="Masukkan nama ibu"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="address">Alamat *</label>
-            <textarea 
-              id="address" 
-              v-model="form.parent.address" 
-              required
-              placeholder="Masukkan alamat lengkap"
-              rows="3"
-            ></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="phone">No. HP *</label>
-            <input 
-              type="tel" 
-              id="phone" 
-              v-model="form.parent.phone" 
-              required
-              placeholder="Masukkan nomor HP"
-            />
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" :disabled="loading" class="btn-submit">
-            {{ loading ? 'Mendaftar...' : 'Daftar Sekarang' }}
-          </button>
-        </div>
-      </form>
-
-      <div class="login-link">
-        Sudah punya akun? <router-link to="/login">Login di sini</router-link>
       </div>
     </div>
   </div>
@@ -147,6 +201,7 @@ export default {
   data() {
     return {
       loading: false,
+      error: '',
       form: {
         fullName: '',
         nim: '',
@@ -169,17 +224,29 @@ export default {
       if (file) {
         // Validasi ukuran file (max 2MB)
         if (file.size > 2 * 1024 * 1024) {
-          alert('Ukuran file terlalu besar. Maksimal 2MB.');
+          this.error = 'Ukuran file terlalu besar. Maksimal 2MB.';
           event.target.value = '';
+          this.form.photo = null;
           return;
         }
+        
+        // Validasi tipe file
+        if (!file.type.startsWith('image/')) {
+          this.error = 'File harus berupa gambar (JPG, PNG, dll).';
+          event.target.value = '';
+          this.form.photo = null;
+          return;
+        }
+        
         this.form.photo = file;
+        this.error = '';
       }
     },
     
     async handleSubmit() {
       try {
         this.loading = true;
+        this.error = '';
         
         const formData = new FormData();
         formData.append('FullName', this.form.fullName);
@@ -197,12 +264,13 @@ export default {
         
         await studentService.register(formData);
         
-        alert('Pendaftaran berhasil! Silakan login setelah admin menyetujui pendaftaran Anda.');
+        // Success message
+        alert('🎉 Pendaftaran berhasil! Silakan login setelah admin menyetujui pendaftaran Anda.');
         this.$router.push('/login');
         
       } catch (error) {
         console.error('Error registering:', error);
-        alert('Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
+        this.error = error.response?.data?.message || 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.';
       } finally {
         this.loading = false;
       }
@@ -215,112 +283,216 @@ export default {
 .register-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+.register-content {
+  padding: 2rem 0;
 }
 
 .register-card {
+  max-width: 800px;
+  margin: 0 auto;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  padding: 40px;
-  width: 100%;
-  max-width: 600px;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
 }
 
-.register-card h2 {
+.card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
-  font-size: 28px;
+}
+
+.card-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.card-header p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.card-body {
+  padding: 2rem;
 }
 
 .form-section {
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
 }
 
-.form-section h3 {
-  color: #555;
-  border-bottom: 2px solid #667eea;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+.section-title {
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
-.form-group label {
+.form-label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
 }
 
-.form-group input,
-.form-group textarea {
+.form-input {
   width: 100%;
-  padding: 12px;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: border-color 0.3s;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out;
+  background: white;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.form-input:focus {
   outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-file {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-file:hover {
   border-color: #667eea;
 }
 
-.form-group small {
-  color: #666;
-  font-size: 12px;
-  margin-top: 5px;
-  display: block;
+.form-file:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.file-upload-container {
+  position: relative;
+}
+
+.file-info {
+  margin-top: 0.5rem;
+}
+
+.text-success {
+  color: #10b981;
 }
 
 .form-actions {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 2rem;
 }
 
-.btn-submit {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 15px 40px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s;
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  min-width: 200px;
 }
 
-.btn-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
+.spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
 }
 
-.btn-submit:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.login-link {
+.card-footer {
+  background: #f8fafc;
+  padding: 1.5rem 2rem;
   text-align: center;
-  margin-top: 20px;
-  color: #666;
+  border-top: 1px solid #e5e7eb;
 }
 
-.login-link a {
+.text-primary {
   color: #667eea;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
 }
 
-.login-link a:hover {
+.text-primary:hover {
   text-decoration: underline;
+}
+
+/* Grid utilities */
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-content {
+    padding: 1rem 0;
+  }
+  
+  .card-header {
+    padding: 1.5rem;
+  }
+  
+  .card-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .card-footer {
+    padding: 1rem 1.5rem;
+  }
+  
+  .btn-large {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    padding: 1rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .card-footer {
+    padding: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.125rem;
+  }
 }
 </style>
