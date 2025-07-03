@@ -109,6 +109,158 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="originAddress" class="form-label">Alamat Asal *</label>
+                    <input 
+                      type="text" 
+                      id="originAddress" 
+                      v-model="form.originAddress" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan alamat asal"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="addressInSemarang" class="form-label">Alamat di Semarang *</label>
+                    <input 
+                      type="text" 
+                      id="addressInSemarang" 
+                      v-model="form.addressInSemarang" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan alamat di Semarang"
+                    />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="birthPlace" class="form-label">Tempat Lahir *</label>
+                    <input 
+                      type="text" 
+                      id="birthPlace" 
+                      v-model="form.birthPlace" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan tempat lahir"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="birthDate" class="form-label">Tanggal Lahir *</label>
+                    <input 
+                      type="date" 
+                      id="birthDate" 
+                      v-model="form.birthDate" 
+                      class="form-input"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="religion" class="form-label">Agama *</label>
+                    <input 
+                      type="text" 
+                      id="religion" 
+                      v-model="form.religion" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan agama"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="gender" class="form-label">Jenis Kelamin *</label>
+                    <select id="gender" v-model="form.gender" class="form-input" required>
+                      <option value="">Pilih jenis kelamin</option>
+                      <option value="Laki-laki">Laki-laki</option>
+                      <option value="Perempuan">Perempuan</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="bloodType" class="form-label">Golongan Darah *</label>
+                    <input 
+                      type="text" 
+                      id="bloodType" 
+                      v-model="form.bloodType" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan golongan darah"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="previousSchool" class="form-label">Asal Sekolah *</label>
+                    <input 
+                      type="text" 
+                      id="previousSchool" 
+                      v-model="form.previousSchool" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan asal sekolah"
+                    />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="highSchoolMajor" class="form-label">Jurusan SMA *</label>
+                    <input 
+                      type="text" 
+                      id="highSchoolMajor" 
+                      v-model="form.highSchoolMajor" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan jurusan SMA"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="graduationYear" class="form-label">Tahun Lulus *</label>
+                    <input 
+                      type="number" 
+                      id="graduationYear" 
+                      v-model="form.graduationYear" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan tahun lulus"
+                    />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="selectedDepartment" class="form-label">Jurusan Pilihan *</label>
+                    <input 
+                      type="text" 
+                      id="selectedDepartment" 
+                      v-model="form.selectedDepartment" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan jurusan pilihan"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="homePhone" class="form-label">Telepon Rumah *</label>
+                    <input 
+                      type="text" 
+                      id="homePhone" 
+                      v-model="form.homePhone" 
+                      class="form-input"
+                      required
+                      placeholder="Masukkan telepon rumah"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="mobilePhone" class="form-label">No. HP Pribadi *</label>
+                  <input 
+                    type="text" 
+                    id="mobilePhone" 
+                    v-model="form.mobilePhone" 
+                    class="form-input"
+                    required
+                    placeholder="Masukkan nomor HP pribadi"
+                  />
+                </div>
               </div>
 
               <!-- Data Orang Tua -->
@@ -209,6 +361,19 @@ export default {
         username: '',
         password: '',
         photo: null,
+        originAddress: '',
+        addressInSemarang: '',
+        birthPlace: '',
+        birthDate: '',
+        religion: '',
+        gender: '',
+        bloodType: '',
+        previousSchool: '',
+        highSchoolMajor: '',
+        graduationYear: '',
+        selectedDepartment: '',
+        homePhone: '',
+        mobilePhone: '',
         parent: {
           fatherName: '',
           motherName: '',
@@ -261,6 +426,20 @@ export default {
         formData.append('Parent.MotherName', this.form.parent.motherName);
         formData.append('Parent.Address', this.form.parent.address);
         formData.append('Parent.Phone', this.form.parent.phone);
+        
+        formData.append('OriginAddress', this.form.originAddress);
+        formData.append('AddressInSemarang', this.form.addressInSemarang);
+        formData.append('BirthPlace', this.form.birthPlace);
+        formData.append('BirthDate', this.form.birthDate);
+        formData.append('Religion', this.form.religion);
+        formData.append('Gender', this.form.gender);
+        formData.append('BloodType', this.form.bloodType);
+        formData.append('PreviousSchool', this.form.previousSchool);
+        formData.append('HighSchoolMajor', this.form.highSchoolMajor);
+        formData.append('GraduationYear', this.form.graduationYear);
+        formData.append('SelectedDepartment', this.form.selectedDepartment);
+        formData.append('HomePhone', this.form.homePhone);
+        formData.append('MobilePhone', this.form.mobilePhone);
         
         await studentService.register(formData);
         

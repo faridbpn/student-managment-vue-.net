@@ -7,23 +7,25 @@ using SimpleApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Tambahkan CORS
+// CORS untuk Vue App
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowVueApp",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:5173", "http://127.0.0.1:5173")
-                   .AllowAnyMethod()
-                   .AllowAnyHeader()
-                   .AllowCredentials();
-        });
+    options.AddPolicy("AllowVueApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://127.0.0.1:5173")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
 });
 
-// Tambahkan JWT Authentication
+// JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var jwtKey = builder.Configuration["Jwt:Key"] ?? "DefaultSuperSecret";
+        var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -32,52 +34,46 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "YourSuperSecretKey123!@#"))
+            IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
         };
     });
 
-// Tambahkan Authorization
+// Authorization
 builder.Services.AddAuthorization();
 
-// Tambahkan koneksi ke SQL Server
+// SQL Server DB Context
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Tambahkan Repository Pattern
+// Repository Pattern
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 
-// Tambahkan controller dan swagger
+// Controllers & Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Initialize database dengan user admin
+// Init DB (buat admin)
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     DbInitializer.Initialize(context);
 }
 
-// Swagger hanya untuk development
+// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Tambahkan CORS middleware
+// Middleware
 app.UseCors("AllowVueApp");
-
-// Static files untuk serve foto upload
 app.UseStaticFiles();
-
-// Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers(); // penting untuk routing API
-
+app.MapControllers();
 app.Run();

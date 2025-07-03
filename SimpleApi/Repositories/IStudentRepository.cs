@@ -9,6 +9,8 @@ namespace SimpleApi.Repositories
         Task<IEnumerable<Student>> GetAllAsync();
         Task<Student> GetByIdAsync(int id);
         Task AddAsync(Student student);
+        void AddParent(Parent parent);
+        Task SaveChangesAsync();
         Task ApproveStudent(int id);
         Task RejectStudent(int id);
     }

@@ -20,6 +20,7 @@ namespace SimpleApi.Models
         public string PhotoPath { get; set; } = string.Empty;
         public string Status { get; set; } = "Pending";
 
+        public int? ParentId { get; set; }
         public Parent? Parent { get; set; } = new(); 
     }
 

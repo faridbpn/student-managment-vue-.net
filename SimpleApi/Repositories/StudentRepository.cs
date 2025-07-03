@@ -29,6 +29,16 @@ namespace SimpleApi.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public void AddParent(Parent parent)
+        {
+            _context.Parents.Add(parent);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
         public async Task ApproveStudent(int id)
         {
             var student = await _context.Students.FindAsync(id);

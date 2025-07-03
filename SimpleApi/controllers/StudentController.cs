@@ -33,6 +33,17 @@ namespace SimpleApi.Controllers
             }
 
             // 2. Buat Student & Parent Object
+            var parent = new Parent
+            {
+                FatherName = dto.FatherName,
+                MotherName = dto.MotherName,
+                Address = dto.ParentAddress,
+                Phone = dto.ParentPhone
+            };
+            // Simpan Parent dulu
+            _repository.AddParent(parent);
+            await _repository.SaveChangesAsync();
+
             var student = new Student
             {
                 FullName = dto.FullName,
@@ -51,13 +62,8 @@ namespace SimpleApi.Controllers
                 MobilePhone = dto.MobilePhone,
                 PhotoPath = $"/uploads/{fileName}",
                 Status = "Pending",
-                Parent = new Parent
-                {
-                    FatherName = dto.FatherName,
-                    MotherName = dto.MotherName,
-                    Address = dto.ParentAddress,
-                    Phone = dto.ParentPhone
-                }
+                ParentId = parent.Id,
+                Parent = parent
             };
 
             // 3. Simpan ke Database
