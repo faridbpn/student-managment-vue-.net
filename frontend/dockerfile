@@ -1,10 +1,19 @@
+# Gunakan stage build dengan Node.js ringan
 FROM node:16-alpine AS build
 WORKDIR /app
+
+# Salin hanya package.json untuk memanfaatkan cache npm
 COPY package.json ./
-RUN npm install
+RUN npm install --production
+
+# Salin sisa kode dan build
 COPY . .
 RUN npm run build
+
+# Gunakan Nginx ringan untuk serve
 FROM nginx:alpine
+# Hapus default Nginx files dan salin build output
+RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

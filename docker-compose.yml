@@ -1,12 +1,11 @@
-version: '3.8'
 services:
   backend:
     build: ./SimpleApi
     ports:
-      - "5000:80"
+      - "5000:80"  # Port 80 di container, 5000 di host untuk tes lokal
     environment:
       - ASPNETCORE_URLS=http://+:80
   frontend:
     build: ./frontend
     ports:
-      - "8080:80"
+      - "8080:80"  # Port 80 di container, 8080 di host untuk tes lokal
