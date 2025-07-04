@@ -1,0 +1,5 @@
+[build]
+command = "dotnet publish SimpleApi/SimpleApi.csproj -c Release -o SimpleApi/publish"
+
+[start]
+command = "dotnet SimpleApi/publish/SimpleApi.dll"
